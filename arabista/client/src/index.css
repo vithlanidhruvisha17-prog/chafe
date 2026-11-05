@@ -1,0 +1,67 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    background-color: #F6F1E7;
+  }
+
+  body {
+    background-color: #F6F1E7;
+    color: #242321;
+    font-family: "DM Sans", "Poppins", sans-serif;
+    margin: 0;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: "Playfair Display", serif;
+    color: #173D32;
+    letter-spacing: -0.02em;
+  }
+
+  /* Custom scrollbar in Arabista tones */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #ECE3D2;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #A5AF96;
+    border-radius: 9999px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #B78B59;
+  }
+}
+
+@layer components {
+  .btn-pill-primary {
+    @apply inline-flex items-center justify-center px-6 py-3 rounded-pill bg-forest text-ivory font-medium transition-all duration-300 hover:bg-forest/90 active:scale-95 shadow-soft hover:shadow-soft-hover;
+  }
+
+  .btn-pill-secondary {
+    @apply inline-flex items-center justify-center px-6 py-3 rounded-pill bg-coffee text-ivory font-medium transition-all duration-300 hover:bg-coffee/90 active:scale-95 shadow-soft hover:shadow-soft-hover;
+  }
+
+  .btn-pill-outline {
+    @apply inline-flex items-center justify-center px-6 py-3 rounded-pill border border-forest/30 text-forest font-medium transition-all duration-300 hover:bg-forest/10 active:scale-95;
+  }
+
+  .card-rounded {
+    @apply bg-ivory/80 backdrop-blur-sm border border-sage/30 rounded-2xl p-6 shadow-soft transition-all duration-300 hover:shadow-soft-hover hover:border-sage/60;
+  }
+
+  .arch-frame {
+    @apply rounded-arch overflow-hidden border-2 border-sage/30;
+  }
+}
