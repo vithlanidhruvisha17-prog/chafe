@@ -142,14 +142,19 @@ export default function HomePage() {
 
             {/* Right Hero Arch Frame */}
             <div className="lg:col-span-5 flex justify-center">
-              <div className="w-full max-w-md aspect-[3/4] arch-frame bg-sage/25 relative shadow-soft overflow-hidden flex flex-col justify-end p-8 border-4 border-sage/40">
-                {/* Decorative Subtle Gradient Background */}
-                <div className="absolute inset-0 bg-gradient-to-t from-forest via-forest/30 to-transparent z-10" />
+              <div className="w-full max-w-md aspect-[3/4] arch-frame bg-sage/25 relative shadow-soft overflow-hidden flex flex-col justify-end p-8 border-4 border-sage/40 group">
+                {/* Hero Ritual Photograph */}
+                <img
+                  src="https://qjwdudmbjqztbxfaugfi.supabase.co/storage/v1/object/public/arabista-images/banners/1794414322582-65588309-62ee-4d98-ab86-a35783d3e6c9.webp"
+                  alt="The Arabista Ritual - Single Origin Manual Pour Over"
+                  className="absolute inset-0 w-full h-full object-cover z-0 transition-transform duration-700 group-hover:scale-105"
+                  onError={(e) => {
+                    e.currentTarget.style.display = 'none';
+                  }}
+                />
 
-                {/* Inner Graphic Elements */}
-                <div className="absolute inset-0 flex items-center justify-center opacity-15 text-forest">
-                  <Coffee className="w-48 h-48" />
-                </div>
+                {/* Decorative Atmospheric Gradient Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-forest via-forest/40 to-transparent z-10 pointer-events-none" />
 
                 {/* Overlay Content */}
                 <div className="relative z-20 text-ivory">
@@ -399,18 +404,31 @@ export default function HomePage() {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
               {/* Arch Portrait Visual */}
               <div className="lg:col-span-5 flex justify-center">
-                <div className="w-full max-w-sm aspect-[4/5] arch-frame bg-sage/30 relative flex flex-col items-center justify-center p-8 text-center shadow-soft border-4 border-sage/40">
-                  <div className="w-20 h-20 rounded-full bg-forest text-ivory flex items-center justify-center mb-4 shadow-sm">
-                    <UtensilsCrossed className="w-10 h-10" />
-                  </div>
-                  <h3 className="font-serif text-2xl font-bold text-forest">
-                    Chef Arabito
-                  </h3>
-                  <p className="text-xs text-coffee font-semibold tracking-widest uppercase mt-1">
-                    Master Roaster &bull; Culinary Lead
-                  </p>
-                  <div className="mt-4 pt-4 border-t border-sage/30 text-[11px] text-charcoal/70 italic">
-                    &ldquo;We never rush the roast, we never rush the dough.&rdquo;
+                <div className="w-full max-w-sm aspect-[4/5] arch-frame bg-sage/30 relative overflow-hidden flex flex-col justify-end p-6 text-center shadow-soft border-4 border-sage/40 group">
+                  {/* Chef Arabito Portrait Photograph */}
+                  <img
+                    src="https://qjwdudmbjqztbxfaugfi.supabase.co/storage/v1/object/public/arabista-images/gallery/1794414328316-46b547f7-5165-41e5-b293-c3955b2733b2.webp"
+                    alt="Chef Arabito - Master Roaster & Culinary Lead"
+                    className="absolute inset-0 w-full h-full object-cover z-0 transition-transform duration-700 group-hover:scale-105"
+                    onError={(e) => {
+                      e.currentTarget.style.display = 'none';
+                    }}
+                  />
+
+                  {/* Gradient Vignette Overlay for Text Readability */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-forest via-forest/75 to-transparent z-10 pointer-events-none" />
+
+                  {/* Chef Details Overlay */}
+                  <div className="relative z-20 text-ivory">
+                    <h3 className="font-serif text-2xl font-bold text-ivory">
+                      Chef Arabito
+                    </h3>
+                    <p className="text-xs text-coffee font-semibold tracking-widest uppercase mt-1">
+                      Master Roaster &bull; Culinary Lead
+                    </p>
+                    <div className="mt-3 pt-3 border-t border-ivory/20 text-[11px] text-ivory/80 italic font-serif">
+                      &ldquo;We never rush the roast, we never rush the dough.&rdquo;
+                    </div>
                   </div>
                 </div>
               </div>

@@ -147,7 +147,22 @@ arabista/
    npm run seed
    ```
 
-5. Start the backend development server:
+5. (Optional) Bulk upload menu & promotional imagery:
+   Populate `server/seed-images/` according to the catalog structure:
+   - `server/seed-images/categories/<category-slug>.(jpg|jpeg|png|webp)`
+   - `server/seed-images/subcategories/<subcategory-slug>.(jpg|jpeg|png|webp)`
+   - `server/seed-images/items/<item-slug>.(jpg|jpeg|png|webp)`
+   - `server/seed-images/banners/<anything>.(jpg|jpeg|png|webp)`
+   - `server/seed-images/gallery/<anything>.(jpg|jpeg|png|webp)`
+
+   Then execute:
+   ```bash
+   npm run upload-images
+   # Or to overwrite existing images:
+   npm run upload-images -- --force
+   ```
+
+6. Start the backend development server:
    ```bash
    npm run dev
    ```
@@ -187,6 +202,7 @@ arabista/
 - `npm run dev`: Starts the server with Nodemon live-reloading.
 - `npm start`: Starts production Node server.
 - `npm run seed`: Seeds default categories, signature items, and initial admin credentials into Supabase.
+- `npm run upload-images`: Bulk uploads images from `server/seed-images/` to Supabase Storage and maps them to database rows. Use `--force` to re-upload existing images.
 - `npx prisma studio`: Launches interactive web UI to inspect database rows.
 - `npx prisma migrate dev`: Creates and applies new database migrations.
 

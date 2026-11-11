@@ -16,12 +16,25 @@ export default function StoryPage() {
         />
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-          <div className="aspect-[4/5] arch-frame bg-sage/20 relative flex items-center justify-center p-8 text-center shadow-soft">
-            <div className="relative z-10 text-forest">
+          <div className="aspect-[4/5] arch-frame bg-sage/20 relative overflow-hidden flex flex-col justify-end p-8 text-center shadow-soft border-4 border-sage/40 group">
+            {/* Sanctuary Ambience Photograph */}
+            <img
+              src="https://qjwdudmbjqztbxfaugfi.supabase.co/storage/v1/object/public/arabista-images/gallery/1794414332688-780502e4-e223-47e2-9906-f3283a70f635.webp"
+              alt="Arabista Sanctuary - Conscious Craft & Community in Surat"
+              className="absolute inset-0 w-full h-full object-cover z-0 transition-transform duration-700 group-hover:scale-105"
+              onError={(e) => {
+                e.currentTarget.style.display = 'none';
+              }}
+            />
+
+            {/* Gradient Vignette Overlay for Text Readability */}
+            <div className="absolute inset-0 bg-gradient-to-t from-forest via-forest/65 to-transparent z-10 pointer-events-none" />
+
+            <div className="relative z-20 text-ivory">
               <span className="text-xs text-coffee font-semibold tracking-widest uppercase">
                 Est. Surat, Gujarat
               </span>
-              <h3 className="text-3xl font-serif font-bold mt-2">
+              <h3 className="text-2xl sm:text-3xl font-serif font-bold mt-1 text-ivory">
                 Conscious Craft &amp; Community
               </h3>
             </div>

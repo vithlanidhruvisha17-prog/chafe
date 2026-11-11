@@ -79,25 +79,23 @@ const createOrder = async ({ type, tableNumber, customerName, phone, items }) =>
     attempts++;
   }
 
-  // Create Order and nested OrderItems in a transaction
-  const order = await prisma.$transaction(async (tx) => {
-    return await tx.order.create({
-      data: {
-        orderNumber,
-        type,
-        tableNumber: type === 'DINE_IN' ? tableNumber.trim() : null,
-        customerName: customerName.trim(),
-        phone: phone.trim(),
-        status: 'PLACED',
-        total: grandTotal,
-        items: {
-          create: verifiedOrderItems,
-        },
+  // Create Order and nested OrderItems atomically
+  const order = await prisma.order.create({
+    data: {
+      orderNumber,
+      type,
+      tableNumber: type === 'DINE_IN' ? tableNumber.trim() : null,
+      customerName: customerName.trim(),
+      phone: phone.trim(),
+      status: 'PLACED',
+      total: grandTotal,
+      items: {
+        create: verifiedOrderItems,
       },
-      include: {
-        items: true,
-      },
-    });
+    },
+    include: {
+      items: true,
+    },
   });
 
   return order;

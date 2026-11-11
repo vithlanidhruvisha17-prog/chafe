@@ -22,10 +22,17 @@ import api from '../services/api';
 
 export default function MenuPage() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const activeFilter = searchParams.get('filter') || 'All';
+  const isSignatureQuery = searchParams.get('signature') === 'true';
+  const activeFilter = isSignatureQuery
+    ? 'signatures'
+    : searchParams.get('filter') || 'All';
 
   const [categories, setCategories] = useState([]);
   const [loadingCategories, setLoadingCategories] = useState(true);
+
+  // Signatures state
+  const [signatureItems, setSignatureItems] = useState([]);
+  const [loadingSignatures, setLoadingSignatures] = useState(true);
 
   // Search states
   const [searchQuery, setSearchQuery] = useState('');
@@ -38,6 +45,7 @@ export default function MenuPage() {
   // Filter chips
   const filterChips = [
     { label: 'All', value: 'All' },
+    { label: 'Signatures', value: 'signatures', icon: Sparkles },
     { label: 'The Pour', value: 'the-pour', icon: Coffee },
     { label: 'Food', value: 'food', icon: UtensilsCrossed },
     { label: 'Pasta Lab', value: 'pastas', icon: UtensilsCrossed },
@@ -120,6 +128,28 @@ export default function MenuPage() {
     };
   }, []);
 
+  // Fetch live signature specials
+  useEffect(() => {
+    let isMounted = true;
+    api
+      .get('/menu-items/signature')
+      .then((res) => {
+        if (isMounted) {
+          setSignatureItems(res.data || []);
+        }
+      })
+      .catch(() => {
+        if (isMounted) setSignatureItems([]);
+      })
+      .finally(() => {
+        if (isMounted) setLoadingSignatures(false);
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   // Search effect across menu items
   useEffect(() => {
     if (!searchQuery.trim()) {
@@ -148,8 +178,9 @@ export default function MenuPage() {
 
   const handleFilterClick = (value) => {
     if (value === 'All') {
-      searchParams.delete('filter');
-      setSearchParams(searchParams);
+      setSearchParams({});
+    } else if (value === 'signatures') {
+      setSearchParams({ signature: 'true' });
     } else {
       setSearchParams({ filter: value });
     }
@@ -216,13 +247,29 @@ export default function MenuPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {searchResults.map((item) => (
                 <Card key={item.id} className="p-4 flex items-center justify-between gap-4">
-                  <div className="flex-1">
+                  {item.imageUrl && (
+                    <div className="w-16 h-16 rounded-xl overflow-hidden shrink-0 bg-sage/15 border border-sage/30">
+                      <img
+                        src={item.imageUrl}
+                        alt={item.name}
+                        loading="lazy"
+                        onError={(e) => {
+                          e.currentTarget.style.display = 'none';
+                          if (e.currentTarget.parentElement) {
+                            e.currentTarget.parentElement.style.display = 'none';
+                          }
+                        }}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  )}
+                  <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2">
-                      <h4 className="font-serif text-lg font-semibold text-forest">
+                      <h4 className="font-serif text-lg font-semibold text-forest truncate">
                         {item.name}
                       </h4>
                       {item.isSignature && (
-                        <span className="text-[10px] bg-sage/25 text-forest font-bold px-2 py-0.5 rounded-pill">
+                        <span className="text-[10px] bg-sage/25 text-forest font-bold px-2 py-0.5 rounded-pill shrink-0">
                           Signature
                         </span>
                       )}
@@ -280,20 +327,94 @@ export default function MenuPage() {
         </div>
       </section>
 
-      {/* Category Cards Grid */}
+      {/* Category Cards Grid or Signatures Grid */}
       <section className="space-y-6">
         <div className="flex items-center justify-between pb-3 border-b border-sage/20">
           <div>
             <h2 className="text-2xl sm:text-3xl font-serif font-bold text-forest">
-              Menu Categories
+              {activeFilter === 'signatures' ? "Chef Arabito's Signatures" : 'Menu Categories'}
             </h2>
             <p className="text-xs text-charcoal/70 mt-0.5">
-              Select a category to explore its distinct sub-collections
+              {activeFilter === 'signatures'
+                ? 'Handcrafted signature brews and chef-curated culinary masterworks'
+                : 'Select a category to explore its distinct sub-collections'}
             </p>
           </div>
         </div>
 
-        {loadingCategories ? (
+        {activeFilter === 'signatures' ? (
+          loadingSignatures ? (
+            <Loader text="Loading freshly prepared signature specials..." />
+          ) : signatureItems.length === 0 ? (
+            <EmptyState
+              icon={Sparkles}
+              title="No Signatures Available"
+              description="Our seasonal signature specials are being updated."
+            />
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {signatureItems.map((item) => (
+                <Card
+                  key={item.id}
+                  variant="hoverable"
+                  className="flex flex-col justify-between h-full bg-ivory border-sage/40"
+                >
+                  <div>
+                    <div className="aspect-[4/3] rounded-xl bg-sage/20 mb-4 overflow-hidden relative flex items-center justify-center">
+                      {item.imageUrl ? (
+                        <img
+                          src={item.imageUrl}
+                          alt={item.name}
+                          className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                          loading="lazy"
+                          onError={(e) => {
+                            e.currentTarget.style.display = 'none';
+                          }}
+                        />
+                      ) : (
+                        <div className="flex flex-col items-center justify-center text-forest/40">
+                          <Coffee className="w-10 h-10 mb-1" />
+                          <span className="font-serif text-xs font-bold uppercase tracking-wider text-forest/60">
+                            ARABISTA
+                          </span>
+                        </div>
+                      )}
+                      <span className="absolute top-2.5 right-2.5 px-2.5 py-0.5 rounded-pill bg-forest/90 text-ivory text-[10px] font-semibold tracking-wider uppercase">
+                        Signature
+                      </span>
+                    </div>
+
+                    <h3 className="font-serif text-xl font-semibold text-forest leading-snug mb-1">
+                      {item.name}
+                    </h3>
+                    <p className="text-xs text-charcoal/70 line-clamp-2 leading-relaxed mb-4">
+                      {item.description || 'Artisanal recipe prepared fresh in our kitchen.'}
+                    </p>
+                  </div>
+
+                  <div className="pt-4 border-t border-sage/20 flex items-center justify-between">
+                    <div>
+                      <span className="text-[10px] text-charcoal/60 uppercase font-semibold">Price</span>
+                      <p className="font-serif text-xl font-bold text-coffee">
+                        &#8377;{item.price}
+                      </p>
+                    </div>
+
+                    <Button
+                      onClick={() => handleAddToCart(item)}
+                      variant="primary"
+                      size="sm"
+                      disabled={!item.isAvailable}
+                    >
+                      <Plus className="w-3.5 h-3.5 mr-1" />
+                      {item.isAvailable ? 'Add to Cart' : 'Sold Out'}
+                    </Button>
+                  </div>
+                </Card>
+              ))}
+            </div>
+          )
+        ) : loadingCategories ? (
           <Loader text="Loading visual menu categories..." />
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -312,6 +433,23 @@ export default function MenuPage() {
                     className="h-full flex flex-col justify-between p-7 bg-ivory border-sage/40 group-hover:border-forest/60 transition-all duration-300"
                   >
                     <div>
+                      {cat.imageUrl && (
+                        <div className="-mt-7 -mx-7 mb-5 overflow-hidden rounded-t-2xl h-44 bg-sage/15 border-b border-sage/20">
+                          <img
+                            src={cat.imageUrl}
+                            alt={cat.name}
+                            loading="lazy"
+                            onError={(e) => {
+                              e.currentTarget.style.display = 'none';
+                              if (e.currentTarget.parentElement) {
+                                e.currentTarget.parentElement.style.display = 'none';
+                              }
+                            }}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          />
+                        </div>
+                      )}
+
                       {/* Top Header & Icon Frame */}
                       <div className="flex items-center justify-between mb-5">
                         <div className="w-12 h-12 rounded-2xl bg-forest text-ivory flex items-center justify-center font-serif text-lg font-bold shadow-sm group-hover:scale-105 transition-transform">

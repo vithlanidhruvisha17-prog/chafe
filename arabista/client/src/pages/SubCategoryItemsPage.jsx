@@ -237,6 +237,23 @@ export default function SubCategoryItemsPage() {
               }`}
             >
               <div>
+                {item.imageUrl && (
+                  <div className="-mt-6 -mx-6 mb-4 aspect-[4/3] overflow-hidden rounded-t-2xl bg-sage/15 border-b border-sage/20">
+                    <img
+                      src={item.imageUrl}
+                      alt={item.name}
+                      loading="lazy"
+                      onError={(e) => {
+                        e.currentTarget.style.display = 'none';
+                        if (e.currentTarget.parentElement) {
+                          e.currentTarget.parentElement.style.display = 'none';
+                        }
+                      }}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                  </div>
+                )}
+
                 {/* Header: Name + Availability Status Badge */}
                 <div className="flex items-start justify-between gap-3 mb-2">
                   <h3 className="font-serif text-xl font-bold text-forest leading-snug">

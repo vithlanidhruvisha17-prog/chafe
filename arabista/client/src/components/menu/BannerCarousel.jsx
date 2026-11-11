@@ -16,6 +16,7 @@ export default function BannerCarousel() {
       subtitle: 'Single-origin washed beans extracted slowly over ice & sparkling tonic water.',
       linkUrl: '/menu/category/the-pour',
       tag: 'Crafted Chills',
+      imageUrl: 'https://qjwdudmbjqztbxfaugfi.supabase.co/storage/v1/object/public/arabista-images/banners/1793902946190-1b902cc6-9948-46dd-a953-42750e1bd396.webp',
     },
     {
       id: 'default-2',
@@ -23,6 +24,7 @@ export default function BannerCarousel() {
       subtitle: '48-hour slow cold fermentation paired with freshly simmered San Marzano sauces.',
       linkUrl: '/menu/category/pastas',
       tag: 'Kitchen Special',
+      imageUrl: 'https://qjwdudmbjqztbxfaugfi.supabase.co/storage/v1/object/public/arabista-images/banners/1793902956838-5f4807fd-3c93-43dd-b865-d14f5b6ac843.webp',
     },
     {
       id: 'default-3',
@@ -30,6 +32,7 @@ export default function BannerCarousel() {
       subtitle: 'The Arabista Special pulled chilled with roasted green cardamom & sweet milk.',
       linkUrl: '/menu/category/the-pour',
       tag: 'Arabista Ritual',
+      imageUrl: 'https://qjwdudmbjqztbxfaugfi.supabase.co/storage/v1/object/public/arabista-images/banners/1793902940132-75faa4e5-9c1b-4378-9e93-dd9e6387cdc2.webp',
     },
   ];
 
@@ -84,8 +87,27 @@ export default function BannerCarousel() {
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
-      {/* Background Graphic & Texture */}
-      <div className="absolute inset-0 bg-gradient-to-r from-forest via-forest/90 to-forest-dark/80 z-0" />
+      {/* Background Image (when available) */}
+      {current.imageUrl && (
+        <img
+          key={current.imageUrl}
+          src={current.imageUrl}
+          alt={current.title || 'Banner'}
+          onError={(e) => {
+            e.currentTarget.style.display = 'none';
+          }}
+          className="absolute inset-0 w-full h-full object-cover z-0"
+        />
+      )}
+
+      {/* Background Graphic & Texture Overlay */}
+      <div
+        className={`absolute inset-0 z-0 pointer-events-none transition-all duration-500 ${
+          current.imageUrl
+            ? 'bg-gradient-to-r from-forest/95 via-forest/75 to-forest/20 md:from-forest/90 md:via-forest/50 md:to-transparent'
+            : 'bg-gradient-to-r from-forest via-forest/90 to-forest-dark/80'
+        }`}
+      />
       <div className="absolute -right-12 -bottom-12 opacity-10 text-ivory z-0 pointer-events-none">
         <Coffee className="w-80 h-80" />
       </div>

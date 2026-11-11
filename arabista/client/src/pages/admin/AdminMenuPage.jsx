@@ -64,7 +64,8 @@ export default function AdminMenuPage() {
   // SubCategory Modal
   const [subCategoryModalOpen, setSubCategoryModalOpen] = useState(false);
   const [editingSubCategory, setEditingSubCategory] = useState(null);
-  const [subCategoryFormData, setSubCategoryFormData] = useState({ name: '', categoryId: '', sortOrder: 0 });
+  const [subCategoryFormData, setSubCategoryFormData] = useState({ name: '', categoryId: '', sortOrder: 0, imageUrl: '' });
+  const [subCategoryImageFile, setSubCategoryImageFile] = useState(null);
   const [submittingSubCategory, setSubmittingSubCategory] = useState(false);
 
   // Fetch all necessary menu entities
@@ -255,6 +256,7 @@ export default function AdminMenuPage() {
         name: sub.name || '',
         categoryId: sub.categoryId || (categories[0]?.id || ''),
         sortOrder: sub.sortOrder || 0,
+        imageUrl: sub.imageUrl || '',
       });
     } else {
       setEditingSubCategory(null);
@@ -262,8 +264,10 @@ export default function AdminMenuPage() {
         name: '',
         categoryId: categories[0]?.id || '',
         sortOrder: 0,
+        imageUrl: '',
       });
     }
+    setSubCategoryImageFile(null);
     setSubCategoryModalOpen(true);
   };
 
@@ -273,17 +277,23 @@ export default function AdminMenuPage() {
 
     try {
       setSubmittingSubCategory(true);
-      const payload = {
-        name: subCategoryFormData.name.trim(),
-        categoryId: subCategoryFormData.categoryId,
-        sortOrder: Number(subCategoryFormData.sortOrder || 0),
-      };
+      const formData = new FormData();
+      formData.append('name', subCategoryFormData.name.trim());
+      formData.append('categoryId', subCategoryFormData.categoryId);
+      formData.append('sortOrder', Number(subCategoryFormData.sortOrder || 0));
 
+      if (subCategoryImageFile) {
+        formData.append('image', subCategoryImageFile);
+      } else if (subCategoryFormData.imageUrl) {
+        formData.append('imageUrl', subCategoryFormData.imageUrl.trim());
+      }
+
+      const headers = { 'Content-Type': 'multipart/form-data' };
       if (editingSubCategory) {
-        await api.put(`/admin/subcategories/${editingSubCategory.id}`, payload);
+        await api.put(`/admin/subcategories/${editingSubCategory.id}`, formData, { headers });
         toast.success('Sub-category updated');
       } else {
-        await api.post('/admin/subcategories', payload);
+        await api.post('/admin/subcategories', formData, { headers });
         toast.success('Sub-category created');
       }
       setSubCategoryModalOpen(false);
@@ -919,6 +929,33 @@ export default function AdminMenuPage() {
                   value={subCategoryFormData.sortOrder}
                   onChange={(e) => setSubCategoryFormData({ ...subCategoryFormData, sortOrder: e.target.value })}
                   className="w-full px-3.5 py-2.5 rounded-xl border border-sage/40 bg-ivory text-charcoal focus:outline-none focus:border-forest text-sm"
+                />
+              </div>
+
+              <div>
+                <label className="block uppercase font-semibold text-charcoal/80 mb-1">
+                  Sub-Category Image (Upload)
+                </label>
+                {editingSubCategory && subCategoryFormData.imageUrl && (
+                  <div className="mb-2 flex items-center gap-3 p-2 rounded-xl bg-sage/15 border border-sage/30">
+                    <img
+                      src={subCategoryFormData.imageUrl}
+                      alt="Current preview"
+                      onError={(e) => {
+                        e.currentTarget.style.display = 'none';
+                      }}
+                      className="w-12 h-12 rounded-lg object-cover"
+                    />
+                    <span className="text-[11px] text-charcoal/70 truncate flex-1">
+                      Current: {subCategoryFormData.imageUrl}
+                    </span>
+                  </div>
+                )}
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => setSubCategoryImageFile(e.target.files[0] || null)}
+                  className="w-full text-xs text-charcoal/70 file:mr-3 file:py-2 file:px-4 file:rounded-pill file:border-0 file:text-xs file:font-semibold file:bg-forest file:text-ivory"
                 />
               </div>
 

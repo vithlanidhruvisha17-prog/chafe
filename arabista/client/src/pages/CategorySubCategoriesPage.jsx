@@ -218,6 +218,23 @@ export default function CategorySubCategoriesPage() {
                   className="h-full flex flex-col justify-between p-6 bg-ivory border-sage/40 group-hover:border-forest/60 transition-all duration-300"
                 >
                   <div>
+                    {sub.imageUrl && (
+                      <div className="-mt-6 -mx-6 mb-4 aspect-[4/3] overflow-hidden rounded-t-2xl bg-sage/15 border-b border-sage/20">
+                        <img
+                          src={sub.imageUrl}
+                          alt={sub.name}
+                          loading="lazy"
+                          onError={(e) => {
+                            e.currentTarget.style.display = 'none';
+                            if (e.currentTarget.parentElement) {
+                              e.currentTarget.parentElement.style.display = 'none';
+                            }
+                          }}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
+                      </div>
+                    )}
+
                     {/* Index Stamp or Icon */}
                     <div className="flex items-center justify-between mb-4">
                       <span className="w-8 h-8 rounded-full bg-forest/10 text-forest text-xs font-serif font-bold flex items-center justify-center">
