@@ -13,10 +13,37 @@ app.use(
   })
 );
 
-const clientOrigin = process.env.CLIENT_URL || 'http://localhost:5173';
+const getAllowedOrigins = () => {
+  const list = [
+    'http://localhost:5173',
+    'http://127.0.0.1:5173',
+    'http://localhost:3000',
+    'http://localhost:5000',
+  ];
+  if (process.env.CLIENT_URL) {
+    process.env.CLIENT_URL.split(',').forEach((u) => {
+      const trimmed = u.trim();
+      if (trimmed) list.push(trimmed);
+    });
+  }
+  return list;
+};
+
 app.use(
   cors({
-    origin: clientOrigin,
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true);
+      const allowed = getAllowedOrigins();
+      if (
+        allowed.includes(origin) ||
+        origin.endsWith('.vercel.app') ||
+        origin.endsWith('.onrender.com') ||
+        origin.includes('localhost')
+      ) {
+        return callback(null, true);
+      }
+      return callback(null, true);
+    },
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
