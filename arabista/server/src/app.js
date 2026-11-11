@@ -36,6 +36,7 @@ app.use(
       const allowed = getAllowedOrigins();
       if (
         allowed.includes(origin) ||
+        origin.endsWith('.netlify.app') ||
         origin.endsWith('.vercel.app') ||
         origin.endsWith('.onrender.com') ||
         origin.includes('localhost')
