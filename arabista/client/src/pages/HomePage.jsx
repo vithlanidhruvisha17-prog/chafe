@@ -18,6 +18,7 @@ import Card from '../components/common/Card';
 import SectionHeading from '../components/common/SectionHeading';
 import Loader from '../components/common/Loader';
 import EmptyState from '../components/common/EmptyState';
+import SignatureShowcase from '../components/home/SignatureShowcase';
 import { useCart } from '../context/CartContext';
 import { useToast } from '../context/ToastContext';
 import api from '../services/api';
@@ -145,8 +146,8 @@ export default function HomePage() {
               <div className="w-full max-w-md aspect-[3/4] arch-frame bg-sage/25 relative shadow-soft overflow-hidden flex flex-col justify-end p-8 border-4 border-sage/40 group">
                 {/* Hero Ritual Photograph */}
                 <img
-                  src="https://qjwdudmbjqztbxfaugfi.supabase.co/storage/v1/object/public/arabista-images/banners/1794414322582-65588309-62ee-4d98-ab86-a35783d3e6c9.webp"
-                  alt="The Arabista Ritual - Single Origin Manual Pour Over"
+                  src="https://qjwdudmbjqztbxfaugfi.supabase.co/storage/v1/object/public/arabista-images/banners/1794851598736-1265458d-19b5-4705-960c-3aa941633ef4.webp"
+                  alt="The Arabista Ritual - Artisan Latte & Pastry"
                   className="absolute inset-0 w-full h-full object-cover z-0 transition-transform duration-700 group-hover:scale-105"
                   onError={(e) => {
                     e.currentTarget.style.display = 'none';
@@ -239,101 +240,45 @@ export default function HomePage() {
         </Container>
       </section>
 
-      {/* 3. SIGNATURE SPECIAL (FROM /api/menu-items/signature, WITH PRICES) */}
-      <section>
-        <Container>
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-12">
+      {/* 3. SIGNATURE SPECIAL */}
+      <section className="relative w-full bg-ivory pt-8 md:pt-12 border-b border-sage/20 overflow-hidden">
+        <Container className="relative z-30 w-full mb-6 md:mb-8">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div>
               <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-pill bg-sage/20 border border-sage/40 text-forest text-xs font-semibold uppercase tracking-widest mb-3">
                 <Sparkles className="w-3.5 h-3.5 text-coffee" />
-                Chef's Handpicked Selection
+                Specialty Roast & Kitchen Showcase
               </span>
-              <h2 className="text-3xl sm:text-5xl font-serif font-medium text-forest leading-tight">
-                Signature Specials
-              </h2>
+              <SectionHeading
+                title="Signature Specials"
+                subtitle="Small-batch single origins, sourdough pizzas, and delicate desserts hand-crafted daily."
+                className="mb-0 text-left"
+              />
             </div>
-
-            <Button to="/menu?signature=true" variant="outline" size="md">
+            <Button to="/menu?signature=true" variant="outline" size="sm" className="self-start md:self-auto">
               View All Signatures
               <ArrowRight className="w-4 h-4 ml-2" />
             </Button>
           </div>
+        </Container>
 
-          {loadingSignatures ? (
+        {loadingSignatures ? (
+          <Container className="relative z-30 py-20 flex items-center justify-center">
             <Loader text="Loading freshly prepared signature specials..." />
-          ) : signatureItems.length === 0 ? (
+          </Container>
+        ) : signatureItems.length === 0 ? (
+          <Container className="relative z-30 py-20">
             <EmptyState
               icon={Coffee}
               title="No Signatures Available"
-              description="Our seasonal signature specials are being updated. Explore our visual menu for today's brews."
+              description="Our chefs are curating today's specialty selection. Please check back shortly."
               actionLabel="View Visual Menu"
               actionTo="/menu"
             />
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {signatureItems.map((item) => (
-                <Card
-                  key={item.id}
-                  variant="hoverable"
-                  className="flex flex-col justify-between h-full bg-ivory border-sage/40"
-                >
-                  <div>
-                    {/* Item Image or Brand Monogram Frame */}
-                    <div className="aspect-[4/3] rounded-xl bg-sage/20 mb-4 overflow-hidden relative flex items-center justify-center">
-                      {item.imageUrl ? (
-                        <img
-                          src={item.imageUrl}
-                          alt={item.name}
-                          className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
-                          loading="lazy"
-                        />
-                      ) : (
-                        <div className="flex flex-col items-center justify-center text-forest/40">
-                          <Coffee className="w-10 h-10 mb-1" />
-                          <span className="font-serif text-xs font-bold uppercase tracking-wider text-forest/60">
-                            ARABISTA
-                          </span>
-                        </div>
-                      )}
-
-                      <span className="absolute top-2.5 right-2.5 px-2.5 py-0.5 rounded-pill bg-forest/90 text-ivory text-[10px] font-semibold tracking-wider uppercase">
-                        Signature
-                      </span>
-                    </div>
-
-                    <div className="flex items-start justify-between gap-2 mb-2">
-                      <h3 className="font-serif text-xl font-semibold text-forest leading-snug">
-                        {item.name}
-                      </h3>
-                    </div>
-
-                    <p className="text-xs text-charcoal/70 line-clamp-2 leading-relaxed mb-4">
-                      {item.description || 'Artisanal recipe prepared fresh in our kitchen.'}
-                    </p>
-                  </div>
-
-                  <div className="pt-4 border-t border-sage/20 flex items-center justify-between">
-                    <div>
-                      <span className="text-[10px] text-charcoal/60 uppercase font-semibold">Price</span>
-                      <p className="font-serif text-xl font-bold text-coffee">
-                        &#8377;{item.price}
-                      </p>
-                    </div>
-
-                    <Button
-                      onClick={() => handleAddToCart(item)}
-                      variant="primary"
-                      size="sm"
-                    >
-                      <Plus className="w-3.5 h-3.5 mr-1" />
-                      Add to Cart
-                    </Button>
-                  </div>
-                </Card>
-              ))}
-            </div>
-          )}
-        </Container>
+          </Container>
+        ) : (
+          <SignatureShowcase signatureItems={signatureItems} />
+        )}
       </section>
 
       {/* 4. OUR SPACE GALLERY (FROM /api/gallery) */}

@@ -11,6 +11,7 @@ import {
   Compass,
 } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
+import Logo from '../common/Logo';
 
 export default function MenuLayout() {
   const navigate = useNavigate();
@@ -33,13 +34,9 @@ export default function MenuLayout() {
       {/* Left Icon Sidebar (Desktop) */}
       <aside className="hidden md:flex flex-col items-center justify-between w-20 py-6 border-r border-sage/25 bg-ivory/95 sticky top-0 h-screen z-30 shrink-0">
         {/* Brand Stamp */}
-        <Link
-          to="/"
-          className="w-12 h-12 rounded-full bg-forest text-ivory flex items-center justify-center font-serif font-bold text-xl shadow-soft hover:scale-105 transition-transform"
-          title="Return to Arabista Home"
-        >
-          A
-        </Link>
+        <div className="py-2">
+          <Logo tone="forest" size="sm" to="/" showTagline={false} className="w-14 h-auto" />
+        </div>
 
         {/* Category Icons */}
         <nav className="flex flex-col items-center gap-3.5 my-auto">
@@ -102,7 +99,7 @@ export default function MenuLayout() {
       {/* Main Visual Menu Pane */}
       <div className="flex-1 flex flex-col min-w-0">
         {/* Top Bar with Back Button + Logo */}
-        <header className="sticky top-0 z-20 bg-ivory/95 backdrop-blur-md border-b border-sage/20 px-4 md:px-8 h-18 flex items-center justify-between">
+        <header className="sticky top-0 z-20 bg-ivory/95 backdrop-blur-md border-b border-sage/20 px-4 md:px-8 h-18 flex items-center justify-between" data-surface="light">
           <div className="flex items-center gap-4">
             <button
               onClick={() => {
@@ -118,14 +115,7 @@ export default function MenuLayout() {
               <ArrowLeft className="w-4 h-4" />
             </button>
 
-            <Link to="/" className="flex items-center gap-2.5">
-              <span className="font-serif text-2xl font-bold tracking-tight text-forest">
-                ARABISTA
-              </span>
-              <span className="hidden sm:inline-block text-[11px] font-medium text-coffee tracking-widest uppercase border-l border-sage/40 pl-2.5">
-                Surat &bull; Gujarat
-              </span>
-            </Link>
+            <Logo tone="forest" size="md" to="/" className="h-8 sm:h-10" />
           </div>
 
           <div className="flex items-center gap-3">

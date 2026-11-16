@@ -3,6 +3,7 @@ import { Link, NavLink } from 'react-router-dom';
 import { ShoppingBag, Menu as MenuIcon, X, MapPin } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
 import Container from '../common/Container';
+import Logo from '../common/Logo';
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -17,23 +18,11 @@ export default function Navbar() {
   ];
 
   return (
-    <header className="sticky top-0 z-40 bg-ivory/95 backdrop-blur-md border-b border-sage/20 transition-all">
+    <header className="sticky top-0 z-40 bg-ivory/95 backdrop-blur-md border-b border-sage/20 transition-all" data-surface="light">
       <Container>
         <div className="h-20 flex items-center justify-between">
           {/* Brand Logo */}
-          <Link to="/" className="flex items-center gap-3 group">
-            <span className="w-10 h-10 rounded-full bg-forest text-ivory flex items-center justify-center font-serif font-bold text-lg shadow-sm transition-transform group-hover:scale-105">
-              A
-            </span>
-            <div className="flex flex-col">
-              <span className="font-serif text-2xl font-bold tracking-tight text-forest leading-none">
-                ARABISTA
-              </span>
-              <span className="text-[10px] font-sans text-coffee tracking-widest uppercase font-semibold mt-1">
-                Surat &bull; Gujarat
-              </span>
-            </div>
-          </Link>
+          <Logo tone="forest" size="md" to="/" className="h-9 md:h-11" />
 
           {/* Desktop Nav Links */}
           <nav className="hidden md:flex items-center gap-8">
@@ -85,7 +74,10 @@ export default function Navbar() {
 
       {/* Mobile Drawer */}
       {mobileOpen && (
-        <div className="md:hidden border-t border-sage/20 bg-ivory px-6 py-6 shadow-lg animate-in slide-in-from-top-4">
+        <div className="md:hidden border-t border-sage/20 bg-ivory px-6 py-6 shadow-lg animate-in slide-in-from-top-4" data-surface="light">
+          <div className="pb-4 border-b border-sage/20 mb-2">
+            <Logo tone="forest" size="sm" to="/" className="h-8" onClick={() => setMobileOpen(false)} />
+          </div>
           <nav className="flex flex-col gap-4">
             {navLinks.map((link) => (
               <NavLink

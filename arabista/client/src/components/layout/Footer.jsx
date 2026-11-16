@@ -2,11 +2,20 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { MapPin, Clock, Phone, Mail, Instagram, ArrowUpRight } from 'lucide-react';
 import Container from '../common/Container';
+import Logo from '../common/Logo';
 
 export default function Footer() {
   return (
-    <footer className="bg-forest text-ivory mt-auto border-t border-forest-light">
+    <footer className="bg-forest text-ivory mt-auto border-t border-forest-light" data-surface="dark">
       <Container className="py-16 md:py-20">
+        {/* Brand Header */}
+        <div className="mb-12 pb-8 border-b border-forest-light flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+          <Logo tone="ivory" size="lg" to="/" className="h-12 md:h-16" />
+          <p className="text-xs text-ivory/70 tracking-widest uppercase font-semibold">
+            Artisanal Sanctuary &bull; Surat, Gujarat
+          </p>
+        </div>
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* Column 1: Discover */}
           <div>

@@ -2,13 +2,18 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Container from '../components/common/Container';
 import Button from '../components/common/Button';
+import Logo from '../components/common/Logo';
 import { Coffee, Compass, ArrowLeft, Search } from 'lucide-react';
 
 export default function NotFoundPage() {
   return (
     <Container className="py-20 md:py-32 text-center max-w-2xl">
-      <div className="w-20 h-20 rounded-full bg-forest text-ivory mx-auto flex items-center justify-center mb-6 shadow-soft">
-        <Coffee className="w-10 h-10 text-coffee" />
+      <div className="mb-8 flex justify-center">
+        <Logo tone="forest" size="lg" to="/" className="h-12" />
+      </div>
+
+      <div className="w-16 h-16 rounded-full bg-forest text-ivory mx-auto flex items-center justify-center mb-6 shadow-soft">
+        <Coffee className="w-8 h-8 text-coffee" />
       </div>
 
       <span className="text-xs font-semibold uppercase tracking-widest text-coffee block mb-2">

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Coffee } from 'lucide-react';
+import Logo from './Logo';
 
 export default function Loader({ fullScreen = false, text = 'Brewing your experience...' }) {
   const content = (
@@ -18,7 +19,8 @@ export default function Loader({ fullScreen = false, text = 'Brewing your experi
 
   if (fullScreen) {
     return (
-      <div className="min-h-screen bg-ivory flex items-center justify-center p-6">
+      <div className="min-h-screen bg-ivory flex flex-col items-center justify-center p-6" data-surface="light">
+        <Logo tone="forest" size="md" className="h-10 mb-8" />
         {content}
       </div>
     );

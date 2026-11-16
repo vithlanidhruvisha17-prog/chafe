@@ -73,6 +73,20 @@ export default {
         '88': '22rem',
         '112': '28rem',
       },
+      keyframes: {
+        showcasePulse: {
+          '0%, 100%': { transform: 'scale(1)' },
+          '50%': { transform: 'scale(1.03)' },
+        },
+        showcaseText: {
+          '0%': { opacity: '0', transform: 'translateY(10px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+      },
+      animation: {
+        'showcase-pulse': 'showcasePulse 900ms ease-out',
+        'showcase-text': 'showcaseText 500ms cubic-bezier(0.33, 0, 0.15, 1) forwards',
+      },
     },
   },
   plugins: [],

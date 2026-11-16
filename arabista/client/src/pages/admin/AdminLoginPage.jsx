@@ -5,6 +5,7 @@ import Card from '../../components/common/Card';
 import Button from '../../components/common/Button';
 import { useToast } from '../../context/ToastContext';
 import api from '../../services/api';
+import Logo from '../../components/common/Logo';
 import { Lock, Mail, ArrowRight, Coffee, AlertCircle } from 'lucide-react';
 
 export default function AdminLoginPage() {
@@ -58,18 +59,13 @@ export default function AdminLoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-ivory text-charcoal flex flex-col justify-center items-center py-12 px-4 selection:bg-coffee selection:text-ivory">
+    <div className="min-h-screen bg-ivory text-charcoal flex flex-col justify-center items-center py-12 px-4 selection:bg-coffee selection:text-ivory" data-surface="light">
       <Container className="max-w-md w-full">
         {/* Brand Header */}
         <div className="text-center mb-8">
-          <Link to="/" className="inline-flex items-center gap-2.5 mb-3 group">
-            <span className="w-12 h-12 rounded-full bg-forest text-ivory flex items-center justify-center font-serif font-bold text-xl shadow-soft group-hover:scale-105 transition-transform">
-              A
-            </span>
-            <span className="font-serif text-3xl font-bold tracking-tight text-forest">
-              ARABISTA
-            </span>
-          </Link>
+          <div className="flex justify-center mb-4">
+            <Logo tone="forest" size="lg" to="/" className="h-14" />
+          </div>
           <p className="text-xs font-semibold uppercase tracking-widest text-coffee">
             Kitchen &amp; Operations Portal
           </p>

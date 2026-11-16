@@ -13,6 +13,7 @@ import {
   User,
 } from 'lucide-react';
 import { useToast } from '../../context/ToastContext';
+import Logo from '../common/Logo';
 
 export default function AdminLayout() {
   const navigate = useNavigate();
@@ -46,23 +47,14 @@ export default function AdminLayout() {
   return (
     <div className="min-h-screen bg-ivory text-charcoal flex flex-col selection:bg-coffee selection:text-ivory">
       {/* Top Admin Navigation Header */}
-      <header className="sticky top-0 z-40 bg-ivory/95 backdrop-blur-md border-b border-sage/25 shadow-sm">
+      <header className="sticky top-0 z-40 bg-ivory/95 backdrop-blur-md border-b border-sage/25 shadow-sm" data-surface="light">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between">
           {/* Brand Logo & Station Badge */}
           <div className="flex items-center gap-3">
-            <Link to="/admin/dashboard" className="flex items-center gap-2.5 group">
-              <span className="w-10 h-10 rounded-full bg-forest text-ivory flex items-center justify-center font-serif font-bold text-lg shadow-sm group-hover:scale-105 transition-transform">
-                A
-              </span>
-              <div className="flex flex-col">
-                <span className="font-serif text-xl font-bold tracking-tight text-forest leading-none">
-                  ARABISTA
-                </span>
-                <span className="text-[10px] uppercase font-semibold tracking-wider text-coffee mt-0.5">
-                  Kitchen &amp; Operations
-                </span>
-              </div>
-            </Link>
+            <Logo tone="forest" size="sm" to="/admin/dashboard" className="h-8" />
+            <span className="hidden sm:inline-block text-[10px] uppercase font-semibold tracking-wider text-coffee border-l border-sage/40 pl-2.5">
+              Kitchen &amp; Operations
+            </span>
           </div>
 
           {/* Desktop Navigation Links */}
